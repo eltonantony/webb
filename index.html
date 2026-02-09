@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+*{
+  box-sizing: border-box;
+}
+
+/* BASE */
+body{
+  margin:0;
+  font-family:"Copperplate", fantasy;
+  color:white;
+  text-align:center;
+  background:black;
+}
+
+/* SECTIONS */
+section{
+  min-height:100vh;
+  width:100%;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  padding:20px 15px; /* IMPORTANT for mobile text */
+}
+
+section.active{
+  display:flex;
+}
+
+/* BACKGROUND */
+video.bg,
+img.bg{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+}
+
+/* TEXT */
+h1{
+  font-size:clamp(1.6rem, 5vw, 2.4rem);
+  line-height:1.3;
+  text-shadow:2px 2px 5px #000;
+  margin:0;
+  max-width:90%;
+  word-wrap:break-word;
+}
+
+/* BUTTONS */
+.btn{
+  padding:14px 50px;
+  border:none;
+  border-radius:25px;
+  font-size:1.05rem;
+  cursor:pointer;
+}
+
+.yes{ background:#ff4d6d; color:white; }
+.no{ background:#444; color:white; }
+
+/* SLIDESHOW */
+.slideshow{
+  width:min(90vw, 420px);
+  height:min(55vw, 260px);
+  max-height:260px;
+
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 0 20px rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.35);
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  display:none;
+}
+
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+/* BUTTON ROW */
+.btn-row{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="loveMusic" loop preload="auto">
+  <source src="assets/audio/music_for_videos-love-story-156946.mp3" type="audio/mp3">
+</audio>
+
+<audio id="sadMusic" preload="auto">
+  <source src="assets/audio/faaa.mp3" type="audio/mp3">
+</audio>
+
+<!-- INTRO -->
+<section id="intro" class="active">
+  <video class="bg" autoplay muted loop>
+    <source src="assets/img/107257-678130120.mp4" type="video/mp4">
+  </video>
+
+  <h1>Athira…<br>Will you be my Valentine?</h1>
+
+  <div class="btn-row">
+    <button class="btn yes" onclick="yesClick()">Yes</button>
+    <button class="btn no" onclick="noClick()">No</button>
+  </div>
+</section>
+
+<!-- YES PAGE -->
+<section id="yes">
+  <video class="bg" autoplay muted loop>
+    <source src="assets/img/64426-509717747.mp4" type="video/mp4">
+  </video>
+
+  <div class="slideshow">
+    <div class="slide"><img src="assets/img/WhatsApp Image 2026-02-07 at 13.58.10.jpeg"></div>
+    <div class="slide"><img src="assets/img/WhatsApp Image 2026-02-07 at 14.11.21.jpeg"></div>
+    <div class="slide"><img src="assets/img/WhatsApp Image 2026-02-07 at 14.26.27.jpeg"></div>
+    <div class="slide"><img src="assets/img/WhatsApp Image 2026-02-07 at 14.29.54.jpeg"></div>
+  </div>
+
+  <h1>You are my Valentine ❤️<br>Forever and always</h1>
+
+  <button class="btn yes" onclick="goBack()">Back</button>
+</section>
+
+<!-- NO PAGE -->
+<section id="no">
+  <img class="bg" src="assets/img/sddefault.jpg" alt="Sad">
+
+  <h1>💔</h1>
+
+  <button class="btn yes" onclick="goBack()">Back</button>
+</section>
+
+<script>
+const intro = document.getElementById("intro");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+
+const loveMusic = document.getElementById("loveMusic");
+const sadMusic = document.getElementById("sadMusic");
+
+/* YES */
+function yesClick(){
+  intro.classList.remove("active");
+  no.classList.remove("active");
+  yes.classList.add("active");
+
+  sadMusic.pause();
+  sadMusic.currentTime = 0;
+
+  loveMusic.play().catch(()=>{});
+  startSlides();
+}
+
+/* NO */
+function noClick(){
+  intro.classList.remove("active");
+  yes.classList.remove("active");
+  no.classList.add("active");
+
+  loveMusic.pause();
+  loveMusic.currentTime = 0;
+
+  sadMusic.play().catch(()=>{});
+}
+
+/* BACK */
+function goBack(){
+  yes.classList.remove("active");
+  no.classList.remove("active");
+  intro.classList.add("active");
+
+  loveMusic.pause();
+  loveMusic.currentTime = 0;
+  sadMusic.pause();
+  sadMusic.currentTime = 0;
+}
+
+/* SLIDESHOW */
+let slideIndex = 0;
+let slideTimer = null;
+
+function startSlides(){
+  if(slideTimer) return;
+
+  const slides = document.getElementsByClassName("slide");
+
+  function show(){
+    for(let i=0;i<slides.length;i++){
+      slides[i].style.display="none";
+    }
+    slideIndex++;
+    if(slideIndex > slides.length) slideIndex = 1;
+    slides[slideIndex-1].style.display="block";
+    slideTimer = setTimeout(show, 3000);
+  }
+  show();
+}
+</script>
+
+</body>
+</html>
