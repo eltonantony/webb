@@ -6,11 +6,8 @@
 <title>Valentine</title>
 
 <style>
-*{
-  box-sizing: border-box;
-}
+*{ box-sizing:border-box; }
 
-/* BASE */
 body{
   margin:0;
   font-family:"Copperplate", fantasy;
@@ -28,16 +25,13 @@ section{
   align-items:center;
   justify-content:center;
   gap:20px;
-  padding:20px 15px; /* IMPORTANT for mobile text */
+  padding:20px 15px;
 }
 
-section.active{
-  display:flex;
-}
+section.active{ display:flex; }
 
 /* BACKGROUND */
-video.bg,
-img.bg{
+video.bg, img.bg{
   position:fixed;
   inset:0;
   width:100%;
@@ -51,9 +45,8 @@ h1{
   font-size:clamp(1.6rem, 5vw, 2.4rem);
   line-height:1.3;
   text-shadow:2px 2px 5px #000;
-  margin:0;
   max-width:90%;
-  word-wrap:break-word;
+  margin:0;
 }
 
 /* BUTTONS */
@@ -68,21 +61,26 @@ h1{
 .yes{ background:#ff4d6d; color:white; }
 .no{ background:#444; color:white; }
 
+.btn-row{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
 /* SLIDESHOW */
 .slideshow{
   width:min(90vw, 420px);
   height:min(55vw, 260px);
   max-height:260px;
-
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-
   border-radius:15px;
   overflow:hidden;
-  box-shadow:0 0 20px rgba(0,0,0,0.6);
   background:rgba(0,0,0,0.35);
+  box-shadow:0 0 20px rgba(0,0,0,0.6);
 }
 
 .slide{
@@ -95,14 +93,6 @@ h1{
   width:100%;
   height:100%;
   object-fit:contain;
-}
-
-/* BUTTON ROW */
-.btn-row{
-  display:flex;
-  gap:15px;
-  flex-wrap:wrap;
-  justify-content:center;
 }
 </style>
 </head>
@@ -127,12 +117,12 @@ h1{
   <h1>Athira…<br>Will you be my Valentine?</h1>
 
   <div class="btn-row">
-    <button class="btn yes" onclick="yesClick()">Yes</button>
-    <button class="btn no" onclick="noClick()">No</button>
+    <button type="button" class="btn yes" onclick="yesClick()">Yes</button>
+    <button type="button" class="btn no" onclick="noClick()">No</button>
   </div>
 </section>
 
-<!-- YES PAGE -->
+<!-- YES -->
 <section id="yes">
   <video class="bg" autoplay muted loop>
     <source src="assets/img/64426-509717747.mp4" type="video/mp4">
@@ -147,16 +137,16 @@ h1{
 
   <h1>You are my Valentine ❤️<br>Forever and always</h1>
 
-  <button class="btn yes" onclick="goBack()">Back</button>
+  <button type="button" class="btn yes" onclick="goBack()">Back</button>
 </section>
 
-<!-- NO PAGE -->
+<!-- NO -->
 <section id="no">
   <img class="bg" src="assets/img/sddefault.jpg" alt="Sad">
 
   <h1>💔</h1>
 
-  <button class="btn yes" onclick="goBack()">Back</button>
+  <button type="button" class="btn yes" onclick="goBack()">Back</button>
 </section>
 
 <script>
@@ -167,7 +157,6 @@ const no = document.getElementById("no");
 const loveMusic = document.getElementById("loveMusic");
 const sadMusic = document.getElementById("sadMusic");
 
-/* YES */
 function yesClick(){
   intro.classList.remove("active");
   no.classList.remove("active");
@@ -180,7 +169,6 @@ function yesClick(){
   startSlides();
 }
 
-/* NO */
 function noClick(){
   intro.classList.remove("active");
   yes.classList.remove("active");
@@ -192,16 +180,13 @@ function noClick(){
   sadMusic.play().catch(()=>{});
 }
 
-/* BACK */
 function goBack(){
   yes.classList.remove("active");
   no.classList.remove("active");
   intro.classList.add("active");
 
-  loveMusic.pause();
-  loveMusic.currentTime = 0;
-  sadMusic.pause();
-  sadMusic.currentTime = 0;
+  loveMusic.pause(); loveMusic.currentTime = 0;
+  sadMusic.pause(); sadMusic.currentTime = 0;
 }
 
 /* SLIDESHOW */
@@ -214,9 +199,7 @@ function startSlides(){
   const slides = document.getElementsByClassName("slide");
 
   function show(){
-    for(let i=0;i<slides.length;i++){
-      slides[i].style.display="none";
-    }
+    for(let i=0;i<slides.length;i++) slides[i].style.display="none";
     slideIndex++;
     if(slideIndex > slides.length) slideIndex = 1;
     slides[slideIndex-1].style.display="block";
