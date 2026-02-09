@@ -8,12 +8,12 @@
 <style>
 *{ box-sizing:border-box; }
 
+/* BASE */
 body{
   margin:0;
   font-family:"Copperplate", fantasy;
   color:white;
   text-align:center;
-  background:black;
 }
 
 /* SECTIONS */
@@ -28,15 +28,18 @@ section{
   padding:20px 15px;
 }
 
-section.active{ display:flex; }
+section.active{
+  display:flex;
+}
 
-/* BACKGROUND */
-video.bg, img.bg{
+/* 🔥 STRETCHED BACKGROUND VIDEO / IMAGE */
+video.bg,
+img.bg{
   position:fixed;
   inset:0;
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:fill;     /* STRETCH TO PORTRAIT */
   z-index:-1;
 }
 
@@ -73,10 +76,12 @@ h1{
   width:min(90vw, 420px);
   height:min(55vw, 260px);
   max-height:260px;
+
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
+
   border-radius:15px;
   overflow:hidden;
   background:rgba(0,0,0,0.35);
@@ -110,7 +115,7 @@ h1{
 
 <!-- INTRO -->
 <section id="intro" class="active">
-  <video class="bg" autoplay muted loop>
+  <video class="bg" autoplay muted loop playsinline>
     <source src="assets/img/107257-678130120.mp4" type="video/mp4">
   </video>
 
@@ -124,7 +129,7 @@ h1{
 
 <!-- YES -->
 <section id="yes">
-  <video class="bg" autoplay muted loop>
+  <video class="bg" autoplay muted loop playsinline>
     <source src="assets/img/64426-509717747.mp4" type="video/mp4">
   </video>
 
@@ -162,10 +167,9 @@ function yesClick(){
   no.classList.remove("active");
   yes.classList.add("active");
 
-  sadMusic.pause();
-  sadMusic.currentTime = 0;
-
+  sadMusic.pause(); sadMusic.currentTime = 0;
   loveMusic.play().catch(()=>{});
+
   startSlides();
 }
 
@@ -174,9 +178,7 @@ function noClick(){
   yes.classList.remove("active");
   no.classList.add("active");
 
-  loveMusic.pause();
-  loveMusic.currentTime = 0;
-
+  loveMusic.pause(); loveMusic.currentTime = 0;
   sadMusic.play().catch(()=>{});
 }
 
